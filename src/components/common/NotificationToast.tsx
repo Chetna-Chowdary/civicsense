@@ -10,20 +10,20 @@ export const NotificationToast: React.FC = () => {
   const isError = notification.type === 'error';
 
   return (
-    <div className="fixed bottom-5 right-5 z-50 max-w-md bg-white border border-slate-200 shadow-lg rounded-xl p-3.5 flex items-start gap-3 animate-in fade-in slide-in-from-bottom-2 duration-200">
+    <div className="fixed bottom-5 right-5 z-50 max-w-md bg-[#FFFDF8] border border-[#E7E0D3] shadow-xl rounded-2xl p-4 flex items-start gap-3 animate-in fade-in slide-in-from-bottom-2 duration-200">
       <div className="mt-0.5 shrink-0">
-        {isSuccess && <CheckCircle2 className="w-4 h-4 text-emerald-600" />}
-        {isError && <AlertCircle className="w-4 h-4 text-rose-600" />}
-        {!isSuccess && !isError && <Info className="w-4 h-4 text-teal-600" />}
+        {isSuccess && <CheckCircle2 className="w-5 h-5 text-[#15966A]" />}
+        {isError && <AlertCircle className="w-5 h-5 text-[#F16B5B]" />}
+        {!isSuccess && !isError && <Info className="w-5 h-5 text-[#073D32]" />}
       </div>
-      <div className="flex-1 text-xs text-slate-800 leading-relaxed font-medium">
+      <div className="flex-1 text-xs text-[#182820] leading-relaxed font-medium">
         {notification.text}
       </div>
       <button
         onClick={dismissNotification}
-        className="text-slate-400 hover:text-slate-700 transition-colors shrink-0"
+        className="text-[#687568] hover:text-[#182820] transition-colors shrink-0"
       >
-        <X className="w-3.5 h-3.5" />
+        <X className="w-4 h-4" />
       </button>
     </div>
   );

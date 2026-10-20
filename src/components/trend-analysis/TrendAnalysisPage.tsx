@@ -22,6 +22,7 @@ import {
 } from 'recharts';
 import { useCivic } from '../../context/CivicContext';
 import { ALL_CATEGORIES } from '../../services/mlEngine';
+import { CIVIC_THEME, SENTIMENT_THEME, DOMAIN_THEME } from '../../constants/theme';
 
 export const TrendAnalysisPage: React.FC = () => {
   const { trends, records } = useCivic();
@@ -47,44 +48,46 @@ export const TrendAnalysisPage: React.FC = () => {
   });
 
   return (
-    <div className="p-8 space-y-8 max-w-7xl mx-auto">
+    <div className="p-6 md:p-8 space-y-8 max-w-7xl mx-auto bg-[#FBF7EF] text-[#182820]">
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-slate-900 tracking-tight">Temporal Trends & Issue Frequency Analysis</h2>
-          <p className="text-xs text-slate-500 mt-1">
+          <h2 className="text-2xl font-extrabold text-[#182820] tracking-tight font-serif">
+            Temporal Trends & Issue Frequency Analysis
+          </h2>
+          <p className="text-xs text-[#687568] mt-1">
             Track daily, weekly, and monthly grievance volumes, category shifts, and recurring keyword patterns over time.
           </p>
         </div>
 
         {/* Timeframe Selector */}
-        <div className="flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200">
+        <div className="flex items-center bg-[#F5EFE6] p-1 rounded-full border border-[#E7E0D3]">
           <button
             onClick={() => setTimeframe('daily')}
-            className={`px-3 py-1 text-xs font-semibold rounded-md transition-all ${
+            className={`px-4 py-1.5 text-xs font-bold rounded-full transition-all ${
               timeframe === 'daily'
-                ? 'bg-white text-slate-900 shadow-xs'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-[#FFFDF8] text-[#073D32] shadow-xs'
+                : 'text-[#687568] hover:text-[#182820]'
             }`}
           >
             Daily
           </button>
           <button
             onClick={() => setTimeframe('weekly')}
-            className={`px-3 py-1 text-xs font-semibold rounded-md transition-all ${
+            className={`px-4 py-1.5 text-xs font-bold rounded-full transition-all ${
               timeframe === 'weekly'
-                ? 'bg-white text-slate-900 shadow-xs'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-[#FFFDF8] text-[#073D32] shadow-xs'
+                : 'text-[#687568] hover:text-[#182820]'
             }`}
           >
             Weekly
           </button>
           <button
             onClick={() => setTimeframe('monthly')}
-            className={`px-3 py-1 text-xs font-semibold rounded-md transition-all ${
+            className={`px-4 py-1.5 text-xs font-bold rounded-full transition-all ${
               timeframe === 'monthly'
-                ? 'bg-white text-slate-900 shadow-xs'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-[#FFFDF8] text-[#073D32] shadow-xs'
+                : 'text-[#687568] hover:text-[#182820]'
             }`}
           >
             Monthly
@@ -92,18 +95,18 @@ export const TrendAnalysisPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Main Time-Series Area Chart */}
-      <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-xs space-y-4">
+      {/* Main Time-Series Area Chart (Emerald & Forest Green) */}
+      <div className="bg-[#FFFDF8] border border-[#E7E0D3] rounded-2xl p-6 shadow-xs space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-base font-bold text-slate-900">
+            <h3 className="text-base font-bold text-[#182820] font-serif">
               {timeframe.charAt(0).toUpperCase() + timeframe.slice(1)} Grievance Filing Volume
             </h3>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-[#687568]">
               Aggregate count of public complaints logged over reporting timeline
             </p>
           </div>
-          <div className="text-xs text-slate-500 font-mono">
+          <div className="text-xs font-bold text-[#073D32] bg-[#DFF2E6] px-3 py-1 rounded-full font-mono">
             {trends.total_records} Total Grievances
           </div>
         </div>
@@ -112,21 +115,21 @@ export const TrendAnalysisPage: React.FC = () => {
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={timeData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
               <defs>
-                <linearGradient id="trendArea" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#0f766e" stopOpacity={0.4} />
-                  <stop offset="95%" stopColor="#0f766e" stopOpacity={0.0} />
+                <linearGradient id="trendAreaWarm" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#15966A" stopOpacity={0.35} />
+                  <stop offset="95%" stopColor="#15966A" stopOpacity={0.0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#E7E0D3" vertical={false} />
               <XAxis
                 dataKey="label"
-                tick={{ fontSize: 11, fill: '#64748b' }}
-                axisLine={{ stroke: '#e2e8f0' }}
+                tick={{ fontSize: 11, fill: '#687568' }}
+                axisLine={{ stroke: '#E7E0D3' }}
                 tickLine={false}
               />
               <YAxis
-                tick={{ fontSize: 11, fill: '#64748b' }}
-                axisLine={{ stroke: '#e2e8f0' }}
+                tick={{ fontSize: 11, fill: '#687568' }}
+                axisLine={{ stroke: '#E7E0D3' }}
                 tickLine={false}
                 allowDecimals={false}
               />
@@ -134,10 +137,10 @@ export const TrendAnalysisPage: React.FC = () => {
                 content={({ active, payload, label }) => {
                   if (active && payload && payload.length) {
                     return (
-                      <div className="bg-slate-900 text-white p-2.5 rounded-lg text-xs shadow-md space-y-1">
-                        <p className="font-semibold text-slate-200">{label}</p>
-                        <p className="text-teal-400 font-mono">
-                          Count: <span className="font-bold">{payload[0].value}</span>
+                      <div className="bg-[#182820] text-[#FFFDF8] p-3 rounded-xl text-xs shadow-xl space-y-1 border border-[#E7E0D3]">
+                        <p className="font-bold text-[#FFFDF8]">{label}</p>
+                        <p className="text-[#15966A] font-mono font-bold">
+                          Volume: {payload[0].value} complaints
                         </p>
                       </div>
                     );
@@ -148,10 +151,10 @@ export const TrendAnalysisPage: React.FC = () => {
               <Area
                 type="monotone"
                 dataKey="count"
-                stroke="#0f766e"
-                strokeWidth={2.5}
+                stroke="#073D32"
+                strokeWidth={3}
                 fillOpacity={1}
-                fill="url(#trendArea)"
+                fill="url(#trendAreaWarm)"
               />
             </AreaChart>
           </ResponsiveContainer>
@@ -159,42 +162,42 @@ export const TrendAnalysisPage: React.FC = () => {
       </div>
 
       {/* Cross Tabulation: Category vs Sentiment Distribution */}
-      <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-xs space-y-4">
+      <div className="bg-[#FFFDF8] border border-[#E7E0D3] rounded-2xl p-6 shadow-xs space-y-4">
         <div>
-          <h3 className="text-base font-bold text-slate-900">
+          <h3 className="text-base font-bold text-[#182820] font-serif">
             Category-Wise Sentiment Breakdown (Cross-Tabulation)
           </h3>
-          <p className="text-xs text-slate-500">
-            Compare negative frustration against positive appreciation and neutral queries per domain
+          <p className="text-xs text-[#687568]">
+            Compare Negative (Coral), Neutral (Golden Yellow), and Positive (Emerald) per domain
           </p>
         </div>
 
         <div className="h-72 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={crossData} margin={{ top: 10, right: 10, left: -20, bottom: 25 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#E7E0D3" vertical={false} />
               <XAxis
                 dataKey="category"
-                tick={{ fontSize: 10, fill: '#475569' }}
+                tick={{ fontSize: 10, fill: '#687568' }}
                 angle={-18}
                 textAnchor="end"
                 interval={0}
-                axisLine={{ stroke: '#e2e8f0' }}
+                axisLine={{ stroke: '#E7E0D3' }}
                 tickLine={false}
               />
               <YAxis
-                tick={{ fontSize: 11, fill: '#64748b' }}
-                axisLine={{ stroke: '#e2e8f0' }}
+                tick={{ fontSize: 11, fill: '#687568' }}
+                axisLine={{ stroke: '#E7E0D3' }}
                 tickLine={false}
                 allowDecimals={false}
               />
               <Tooltip
-                contentStyle={{ backgroundColor: '#0f172a', borderRadius: '8px', border: 'none', color: '#fff', fontSize: '12px' }}
+                contentStyle={{ backgroundColor: '#182820', borderRadius: '10px', border: '1px solid #E7E0D3', color: '#FFFDF8', fontSize: '12px' }}
               />
               <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '10px' }} />
-              <Bar dataKey="Negative" fill="#e11d48" stackId="a" radius={[0, 0, 0, 0]} />
-              <Bar dataKey="Neutral" fill="#0284c7" stackId="a" radius={[0, 0, 0, 0]} />
-              <Bar dataKey="Positive" fill="#059669" stackId="a" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="Negative" name="Negative (Coral)" fill="#F16B5B" stackId="a" radius={[0, 0, 0, 0]} />
+              <Bar dataKey="Neutral" name="Neutral (Golden Yellow)" fill="#F2B544" stackId="a" radius={[0, 0, 0, 0]} />
+              <Bar dataKey="Positive" name="Positive (Emerald Green)" fill="#15966A" stackId="a" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -203,35 +206,31 @@ export const TrendAnalysisPage: React.FC = () => {
       {/* Frequently Reported Terms & Recurring Phrases */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Top Unigram Keywords */}
-        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-xs space-y-4">
+        <div className="bg-[#FFFDF8] border border-[#E7E0D3] rounded-2xl p-6 shadow-xs space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">
+              <h3 className="text-sm font-bold text-[#182820] uppercase tracking-wider">
                 Frequently Reported Keywords (Unigrams)
               </h3>
-              <p className="text-xs text-slate-500">Highest frequency words after stopword cleaning</p>
+              <p className="text-xs text-[#687568]">Highest frequency words after stopword cleaning</p>
             </div>
-            <Hash className="w-4 h-4 text-teal-600" />
+            <Hash className="w-4 h-4 text-[#15966A]" />
           </div>
 
           <div className="space-y-2">
-            {trends.frequent_keywords.slice(0, 8).map((kw, idx) => {
+            {trends.frequent_keywords.slice(0, 8).map((kw) => {
               const maxCount = trends.frequent_keywords[0]?.count || 1;
               const pct = Math.round((kw.count / maxCount) * 100);
               return (
                 <div key={kw.term} className="space-y-1">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-semibold text-slate-800 font-mono">
-                      {idx + 1}. {kw.term}
-                    </span>
-                    <span className="font-mono tabular-nums text-slate-500">
-                      {kw.count} occurrences
-                    </span>
+                  <div className="flex justify-between text-xs">
+                    <span className="font-bold text-[#182820] font-mono">{kw.term}</span>
+                    <span className="text-[#687568] font-mono">{kw.count} occurrences</span>
                   </div>
-                  <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                  <div className="w-full h-2 bg-[#F5EFE6] rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-teal-600 rounded-full transition-all"
-                      style={{ width: `${pct}%` }}
+                      className="h-full bg-[#15966A] rounded-full"
+                      style={{ width: `${Math.max(6, pct)}%` }}
                     />
                   </div>
                 </div>
@@ -240,77 +239,38 @@ export const TrendAnalysisPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Top Bigram Phrases */}
-        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-xs space-y-4">
+        {/* Top Recurring Phrases */}
+        <div className="bg-[#FFFDF8] border border-[#E7E0D3] rounded-2xl p-6 shadow-xs space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">
-                Recurring Civic Phrases (Bigrams)
+              <h3 className="text-sm font-bold text-[#182820] uppercase tracking-wider">
+                Key Civic Phrases (N-Grams)
               </h3>
-              <p className="text-xs text-slate-500">Co-occurring 2-word grievance patterns</p>
+              <p className="text-xs text-[#687568]">Recurring multi-word expressions in complaints</p>
             </div>
-            <Layers className="w-4 h-4 text-indigo-600" />
+            <Layers className="w-4 h-4 text-[#E85A24]" />
           </div>
 
           <div className="space-y-2">
-            {trends.frequent_phrases.slice(0, 8).map((phrase, idx) => {
+            {trends.frequent_phrases.slice(0, 8).map((ph) => {
               const maxCount = trends.frequent_phrases[0]?.count || 1;
-              const pct = Math.round((phrase.count / maxCount) * 100);
+              const pct = Math.round((ph.count / maxCount) * 100);
               return (
-                <div key={phrase.term} className="space-y-1">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-semibold text-slate-800 font-mono">
-                      {idx + 1}. "{phrase.term}"
-                    </span>
-                    <span className="font-mono tabular-nums text-slate-500">
-                      {phrase.count} occurrences
-                    </span>
+                <div key={ph.term} className="space-y-1">
+                  <div className="flex justify-between text-xs">
+                    <span className="font-bold text-[#182820] font-mono">{ph.term}</span>
+                    <span className="text-[#687568] font-mono">{ph.count} occurrences</span>
                   </div>
-                  <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                  <div className="w-full h-2 bg-[#F5EFE6] rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-indigo-600 rounded-full transition-all"
-                      style={{ width: `${pct}%` }}
+                      className="h-full bg-[#E85A24] rounded-full"
+                      style={{ width: `${Math.max(6, pct)}%` }}
                     />
                   </div>
                 </div>
               );
             })}
           </div>
-        </div>
-      </div>
-
-      {/* Specific Focus: Drainage / Sewage Trajectory & Hotspots */}
-      <div className="p-6 bg-teal-950 text-white rounded-xl shadow-xs space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-teal-800/60 pb-3">
-          <div>
-            <span className="text-[11px] font-mono uppercase tracking-wider text-teal-400 font-semibold block">
-              Dedicated Sector Analysis
-            </span>
-            <h3 className="text-base font-bold text-white">Drainage & Sewage Grievance Trajectory</h3>
-          </div>
-          <div className="text-xs font-mono text-teal-300">
-            {records.filter(r => r.category === 'Drainage / Sewage').length} Verified Incidents Logged
-          </div>
-        </div>
-
-        <p className="text-xs text-slate-300 leading-relaxed max-w-3xl">
-          Monitors sewer blockages, manhole backflows, pipeline leaks, and stormwater waterlogging. Real-time NLP filters distinguish wastewater infrastructure failures from municipal drinking water supply.
-        </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
-          {records.filter(r => r.category === 'Drainage / Sewage').slice(0, 3).map((dr) => (
-            <div key={dr.id} className="p-3 bg-teal-900/40 rounded-lg border border-teal-800/80 text-xs space-y-1.5">
-              <div className="flex justify-between items-center">
-                <span className="font-mono font-bold text-teal-300">{dr.id}</span>
-                <span className="text-[11px] text-teal-200/80 font-mono">{dr.date}</span>
-              </div>
-              <p className="text-slate-200 line-clamp-2">"{dr.complaint_text}"</p>
-              <div className="text-[11px] text-teal-400 flex justify-between pt-1 border-t border-teal-800/60">
-                <span>{dr.ward_or_region}</span>
-                <span className="font-semibold text-rose-300">{dr.urgency} Priority</span>
-              </div>
-            </div>
-          ))}
         </div>
       </div>
     </div>

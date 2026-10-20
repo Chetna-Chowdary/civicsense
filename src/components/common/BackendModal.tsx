@@ -31,19 +31,19 @@ export const BackendModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4">
-      <div className="bg-white rounded-xl shadow-2xl border border-slate-200 w-full max-w-xl overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#182820]/60 backdrop-blur-xs p-4 animate-in fade-in duration-150">
+      <div className="bg-[#FFFDF8] rounded-3xl shadow-2xl border border-[#E7E0D3] w-full max-w-xl overflow-hidden">
         {/* Modal Header */}
-        <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+        <div className="px-6 py-4 border-b border-[#E7E0D3] flex items-center justify-between bg-[#FBF7EF]">
           <div className="flex items-center gap-2.5">
-            <Server className="w-5 h-5 text-teal-600" />
-            <h2 className="text-base font-bold text-slate-900">Backend & Model Engine Settings</h2>
+            <Server className="w-5 h-5 text-[#15966A]" />
+            <h2 className="text-base font-extrabold text-[#182820] font-serif">Backend & Model Engine Settings</h2>
           </div>
           <button
             onClick={() => setIsBackendModalOpen(false)}
-            className="text-slate-400 hover:text-slate-700 transition-colors"
+            className="p-1 text-[#687568] hover:text-[#182820] rounded-full hover:bg-[#F5EFE6] transition-colors"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
@@ -51,48 +51,48 @@ export const BackendModal: React.FC = () => {
         <div className="p-6 space-y-5 text-sm">
           {/* Mode Switcher */}
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-2 uppercase tracking-wider">
+            <label className="block text-xs font-bold text-[#687568] mb-2 uppercase tracking-wider">
               Execution Architecture
             </label>
             <div className="grid grid-cols-2 gap-3">
               <button
                 onClick={() => setBackendMode('embedded')}
-                className={`p-3.5 rounded-lg border text-left transition-all ${
+                className={`p-4 rounded-2xl border text-left transition-all ${
                   backendMode === 'embedded'
-                    ? 'border-teal-500 bg-teal-50/50 ring-1 ring-teal-500'
-                    : 'border-slate-200 hover:border-slate-300 bg-white'
+                    ? 'border-[#15966A] bg-[#DFF2E6]/60 shadow-xs'
+                    : 'border-[#E7E0D3] hover:border-[#15966A]/60 bg-[#FBF7EF]'
                 }`}
               >
-                <div className="font-semibold text-slate-900 mb-0.5">Embedded ML Engine</div>
-                <div className="text-xs text-slate-500 leading-relaxed">
+                <div className="font-bold text-[#073D32] mb-0.5">Embedded ML Engine</div>
+                <div className="text-xs text-[#687568] leading-relaxed">
                   Active in-browser TF-IDF & probabilistic models. Zero local Python setup required.
                 </div>
               </button>
 
               <button
                 onClick={() => setBackendMode('local_fastapi')}
-                className={`p-3.5 rounded-lg border text-left transition-all ${
+                className={`p-4 rounded-2xl border text-left transition-all ${
                   backendMode === 'local_fastapi'
-                    ? 'border-teal-500 bg-teal-50/50 ring-1 ring-teal-500'
-                    : 'border-slate-200 hover:border-slate-300 bg-white'
+                    ? 'border-[#15966A] bg-[#DFF2E6]/60 shadow-xs'
+                    : 'border-[#E7E0D3] hover:border-[#15966A]/60 bg-[#FBF7EF]'
                 }`}
               >
-                <div className="font-semibold text-slate-900 mb-0.5">Local FastAPI Backend</div>
-                <div className="text-xs text-slate-500 leading-relaxed">
-                  Routes REST calls to Python uvicorn server on <span className="font-mono">127.0.0.1:8000</span>.
+                <div className="font-bold text-[#073D32] mb-0.5">Local FastAPI Backend</div>
+                <div className="text-xs text-[#687568] leading-relaxed">
+                  Routes REST calls to Python uvicorn server on <span className="font-mono font-bold">127.0.0.1:8000</span>.
                 </div>
               </button>
             </div>
           </div>
 
           {/* FastAPI Status Card */}
-          <div className="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-3">
+          <div className="p-4 rounded-2xl bg-[#FBF7EF] border border-[#E7E0D3] space-y-3">
             <div className="flex items-center justify-between">
-              <div className="text-xs font-semibold text-slate-700">FastAPI Connection Status</div>
+              <div className="text-xs font-bold text-[#182820]">FastAPI Connection Status</div>
               <button
                 onClick={handlePing}
                 disabled={isPinging}
-                className="flex items-center gap-1.5 text-xs text-teal-700 hover:text-teal-800 font-medium disabled:opacity-50"
+                className="flex items-center gap-1.5 text-xs text-[#073D32] hover:text-[#15966A] font-bold disabled:opacity-50"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${isPinging ? 'animate-spin' : ''}`} />
                 <span>Test Connection</span>
@@ -101,26 +101,26 @@ export const BackendModal: React.FC = () => {
 
             {fastApiPing ? (
               fastApiPing.connected ? (
-                <div className="flex items-center gap-2 text-xs text-emerald-700 bg-emerald-50 border border-emerald-200 p-2.5 rounded-md">
-                  <CheckCircle2 className="w-4 h-4 shrink-0" />
+                <div className="flex items-center gap-2 text-xs text-[#073D32] bg-[#DFF2E6] border border-[#A3E0C0] p-3 rounded-xl font-medium">
+                  <CheckCircle2 className="w-4 h-4 text-[#15966A] shrink-0" />
                   <span>
                     Connected successfully (latency: {fastApiPing.latency_ms}ms · {fastApiPing.records_loaded} records loaded).
                   </span>
                 </div>
               ) : (
-                <div className="flex items-start gap-2 text-xs text-rose-700 bg-rose-50 border border-rose-200 p-2.5 rounded-md">
-                  <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                <div className="flex items-start gap-2 text-xs text-[#A62419] bg-[#FBE2E0] border border-[#F7B7B1] p-3 rounded-xl font-medium">
+                  <AlertCircle className="w-4 h-4 text-[#F16B5B] shrink-0 mt-0.5" />
                   <div>
-                    <span className="font-semibold">Backend Unreachable:</span> {fastApiPing.error}
-                    <div className="mt-1 text-[11px] text-rose-600">
+                    <span className="font-bold">Backend Unreachable:</span> {fastApiPing.error}
+                    <div className="mt-1 text-[11px] text-[#A62419]/90">
                       The web application seamlessly uses the embedded ML engine so you have full functionality without disruption.
                     </div>
                   </div>
                 </div>
               )
             ) : (
-              <div className="text-xs text-slate-500">
-                Click "Test Connection" to probe <code className="font-mono bg-slate-200 px-1 py-0.5 rounded">http://127.0.0.1:8000/api/health</code>.
+              <div className="text-xs text-[#687568]">
+                Click "Test Connection" to probe <code className="font-mono bg-[#EAE2D5] px-1.5 py-0.5 rounded">http://127.0.0.1:8000/api/health</code>.
               </div>
             )}
           </div>
@@ -128,18 +128,18 @@ export const BackendModal: React.FC = () => {
           {/* Quick Launch Commands for Windows / VS Code */}
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <span className="text-xs font-semibold text-slate-700 uppercase tracking-wider">
+              <span className="text-xs font-bold text-[#687568] uppercase tracking-wider">
                 Run FastAPI Locally (VS Code / Windows)
               </span>
               <button
                 onClick={copyCommands}
-                className="flex items-center gap-1 text-xs text-slate-600 hover:text-slate-900 transition-colors"
+                className="flex items-center gap-1 text-xs text-[#073D32] hover:text-[#15966A] font-bold transition-colors"
               >
-                {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                {copied ? <Check className="w-3.5 h-3.5 text-[#15966A]" /> : <Copy className="w-3.5 h-3.5" />}
                 <span>{copied ? 'Copied' : 'Copy Commands'}</span>
               </button>
             </div>
-            <pre className="bg-slate-900 text-slate-200 p-3 rounded-lg text-xs font-mono overflow-x-auto leading-relaxed border border-slate-800">
+            <pre className="bg-[#182820] text-[#FFFDF8] p-3.5 rounded-xl text-xs font-mono overflow-x-auto leading-relaxed border border-[#0D4E41]">
 {`cd backend
 python -m venv venv
 .\\venv\\Scripts\\Activate.ps1
@@ -153,12 +153,12 @@ uvicorn main:app --reload --host 127.0.0.1 --port 8000`}
         </div>
 
         {/* Modal Footer */}
-        <div className="px-6 py-3.5 bg-slate-50 border-t border-slate-200 flex justify-end">
+        <div className="px-6 py-4 bg-[#FBF7EF] border-t border-[#E7E0D3] flex justify-end">
           <button
             onClick={() => setIsBackendModalOpen(false)}
-            className="px-4 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors"
+            className="px-5 py-2 text-xs font-bold text-white bg-[#073D32] hover:bg-[#0c4e40] rounded-full transition-colors"
           >
-            Close
+            Close Settings
           </button>
         </div>
       </div>

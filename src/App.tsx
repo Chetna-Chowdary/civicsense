@@ -5,6 +5,7 @@ import { Header } from './components/layout/Header';
 import { NotificationToast } from './components/common/NotificationToast';
 import { BackendModal } from './components/common/BackendModal';
 
+import { LandingPage } from './components/landing/LandingPage';
 import { DashboardPage } from './components/dashboard/DashboardPage';
 import { DataManagementPage } from './components/data-management/DataManagementPage';
 import { ComplaintAnalysisPage } from './components/complaint-analysis/ComplaintAnalysisPage';
@@ -16,6 +17,17 @@ import { InsightsPage } from './components/insights/InsightsPage';
 
 const AppContent: React.FC = () => {
   const { activeTab } = useCivic();
+
+  // If on Landing Page, render the full edge-to-edge pixel-perfect reference presentation
+  if (activeTab === 'home') {
+    return (
+      <div className="min-h-screen w-full overflow-x-hidden bg-[#FBF7EF] text-[#182820]">
+        <LandingPage />
+        <NotificationToast />
+        <BackendModal />
+      </div>
+    );
+  }
 
   const renderActiveView = () => {
     switch (activeTab) {
@@ -41,7 +53,7 @@ const AppContent: React.FC = () => {
   };
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-slate-50 text-slate-900">
+    <div className="flex h-screen w-screen overflow-hidden bg-[#FBF7EF] text-[#182820]">
       {/* Sidebar Navigation */}
       <Sidebar />
 

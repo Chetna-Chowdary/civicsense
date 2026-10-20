@@ -275,7 +275,7 @@ if nav == "Dashboard":
             names="Sentiment",
             values="Count",
             color="Sentiment",
-            color_discrete_map={"Negative": "#e11d48", "Positive": "#059669", "Neutral": "#0284c7"},
+            color_discrete_map={"Negative": "#F16B5B", "Positive": "#15966A", "Neutral": "#F2B544"},
             hole=0.45
         )
         fig_pie.update_layout(height=360, margin=dict(l=10, r=10, t=10, b=10))
@@ -423,7 +423,7 @@ elif nav == "Sentiment Analysis":
                 x="Sentiment",
                 y="Probability",
                 color="Sentiment",
-                color_discrete_map={"Negative": "#e11d48", "Positive": "#059669", "Neutral": "#0284c7"}
+                color_discrete_map={"Negative": "#F16B5B", "Positive": "#15966A", "Neutral": "#F2B544"}
             )
             fig_s.update_layout(height=260, margin=dict(l=10, r=10, t=10, b=10))
             st.plotly_chart(fig_s, use_container_width=True)
@@ -450,7 +450,7 @@ elif nav == "Trend Analysis":
             x="category",
             y=["Negative", "Neutral", "Positive"] if "Negative" in cross.columns else cross.columns[1:],
             barmode="group",
-            color_discrete_map={"Negative": "#e11d48", "Positive": "#059669", "Neutral": "#0284c7"}
+            color_discrete_map={"Negative": "#F16B5B", "Positive": "#15966A", "Neutral": "#F2B544"}
         )
         fig_cross.update_layout(height=380, margin=dict(l=10, r=10, t=10, b=10))
         st.plotly_chart(fig_cross, use_container_width=True)

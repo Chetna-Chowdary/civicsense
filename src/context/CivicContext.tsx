@@ -18,6 +18,7 @@ import {
 import { civicApi, PingResult } from '../services/apiService';
 
 export type NavigationTab =
+  | 'home'
   | 'dashboard'
   | 'data-management'
   | 'complaint-analysis'
@@ -57,7 +58,7 @@ const CivicContext = createContext<CivicContextType | undefined>(undefined);
 
 export const CivicProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [records, setRecords] = useState<GrievanceRecord[]>(INITIAL_DEMO_GRIEVANCES);
-  const [activeTab, setActiveTab] = useState<NavigationTab>('dashboard');
+  const [activeTab, setActiveTab] = useState<NavigationTab>('home');
   const [selectedModel, setSelectedModel] = useState<'logistic_regression' | 'naive_bayes'>('logistic_regression');
   const [backendMode, setBackendModeState] = useState<BackendMode>('embedded');
   const [isLoading, setIsLoading] = useState<boolean>(false);

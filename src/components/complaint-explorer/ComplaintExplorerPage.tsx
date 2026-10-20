@@ -13,6 +13,7 @@ import {
 import { useCivic } from '../../context/CivicContext';
 import { GrievanceRecord, ServiceCategory, SentimentType } from '../../types';
 import { ALL_CATEGORIES, ALL_SENTIMENTS, exportRecordsToCSV } from '../../services/mlEngine';
+import { CIVIC_THEME, SENTIMENT_THEME, DOMAIN_THEME } from '../../constants/theme';
 
 export const ComplaintExplorerPage: React.FC = () => {
   const { records } = useCivic();
@@ -58,31 +59,33 @@ export const ComplaintExplorerPage: React.FC = () => {
   };
 
   return (
-    <div className="p-8 space-y-6 max-w-7xl mx-auto">
+    <div className="p-6 md:p-8 space-y-6 max-w-7xl mx-auto bg-[#FBF7EF] text-[#182820]">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-slate-900 tracking-tight">Citizen Grievance Records Explorer</h2>
-          <p className="text-xs text-slate-500 mt-1">
+          <h2 className="text-2xl font-extrabold text-[#182820] tracking-tight font-serif">
+            Citizen Grievance Records Explorer
+          </h2>
+          <p className="text-xs text-[#687568] mt-1">
             Browse, filter, and inspect verified complaint logs across administrative wards.
           </p>
         </div>
 
         <button
           onClick={handleDownloadFiltered}
-          className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-slate-800 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors whitespace-nowrap self-start md:self-auto"
+          className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-[#073D32] bg-[#FFFDF8] border border-[#E7E0D3] rounded-full hover:bg-[#F5EFE6] transition-all whitespace-nowrap self-start md:self-auto shadow-2xs"
         >
-          <Download className="w-3.5 h-3.5 text-slate-600" />
+          <Download className="w-3.5 h-3.5 text-[#15966A]" />
           <span>Export Filtered ({filtered.length})</span>
         </button>
       </div>
 
       {/* Filter Controls Bar */}
-      <div className="p-4 bg-white border border-slate-200 rounded-xl shadow-xs space-y-3">
+      <div className="p-4 bg-[#FFFDF8] border border-[#E7E0D3] rounded-2xl shadow-xs space-y-3">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
           {/* Search Input */}
           <div className="relative md:col-span-2">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+            <Search className="w-4 h-4 text-[#687568] absolute left-3.5 top-3" />
             <input
               type="text"
               value={search}
@@ -91,7 +94,7 @@ export const ComplaintExplorerPage: React.FC = () => {
                 setPage(1);
               }}
               placeholder="Search complaint text, ID, or ward..."
-              className="w-full pl-9 pr-3.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500"
+              className="w-full pl-10 pr-4 py-2.5 text-xs bg-[#FBF7EF] border border-[#E7E0D3] rounded-xl text-[#182820] focus:outline-hidden focus:ring-2 focus:ring-[#15966A]/30 focus:border-[#15966A]"
             />
           </div>
 
@@ -103,9 +106,9 @@ export const ComplaintExplorerPage: React.FC = () => {
                 setSelectedCategory(e.target.value);
                 setPage(1);
               }}
-              className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500"
+              className="w-full px-3.5 py-2.5 text-xs bg-[#FBF7EF] border border-[#E7E0D3] rounded-xl text-[#182820] focus:outline-hidden focus:ring-2 focus:ring-[#15966A]/30 focus:border-[#15966A] font-medium"
             >
-              <option value="All">All Categories</option>
+              <option value="All">All Categories (8 Domains)</option>
               {ALL_CATEGORIES.map((cat) => (
                 <option key={cat} value={cat}>
                   {cat}
@@ -122,7 +125,7 @@ export const ComplaintExplorerPage: React.FC = () => {
                 setSelectedSentiment(e.target.value);
                 setPage(1);
               }}
-              className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500"
+              className="w-full px-3.5 py-2.5 text-xs bg-[#FBF7EF] border border-[#E7E0D3] rounded-xl text-[#182820] focus:outline-hidden focus:ring-2 focus:ring-[#15966A]/30 focus:border-[#15966A] font-medium"
             >
               <option value="All">All Sentiments</option>
               {ALL_SENTIMENTS.map((sent) => (
@@ -135,10 +138,10 @@ export const ComplaintExplorerPage: React.FC = () => {
         </div>
 
         {/* Quick Filter Counts */}
-        <div className="flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-slate-100">
+        <div className="flex items-center justify-between text-xs text-[#687568] pt-2 border-t border-[#E7E0D3]">
           <div className="flex items-center gap-3">
             <span>
-              Showing <strong className="text-slate-800 font-mono">{filtered.length}</strong> matching records
+              Showing <strong className="text-[#182820] font-mono">{filtered.length}</strong> matching records
             </span>
             {(search || selectedCategory !== 'All' || selectedSentiment !== 'All') && (
               <button
@@ -148,82 +151,85 @@ export const ComplaintExplorerPage: React.FC = () => {
                   setSelectedSentiment('All');
                   setPage(1);
                 }}
-                className="text-teal-700 hover:text-teal-900 font-semibold"
+                className="text-[#E85A24] hover:underline font-bold"
               >
                 Reset Filters
               </button>
             )}
           </div>
-          <span className="font-mono tabular-nums">
+          <span className="font-mono tabular-nums font-semibold">
             Page {currentPage} of {totalPages}
           </span>
         </div>
       </div>
 
       {/* High-Density Data Grid */}
-      <div className="bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
+      <div className="bg-[#FFFDF8] border border-[#E7E0D3] rounded-2xl shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 text-slate-500 uppercase tracking-wider text-[11px] font-semibold border-b border-slate-200">
+            <thead className="bg-[#FBF7EF] text-[#687568] uppercase tracking-wider text-[11px] font-bold border-b border-[#E7E0D3]">
               <tr>
-                <th className="px-5 py-3">Grievance ID</th>
-                <th className="px-5 py-3">Complaint Text</th>
-                <th className="px-5 py-3">Category</th>
-                <th className="px-5 py-3">Sentiment</th>
-                <th className="px-5 py-3">Date</th>
-                <th className="px-5 py-3">Ward / Area</th>
-                <th className="px-5 py-3">Department</th>
-                <th className="px-5 py-3 text-right">Action</th>
+                <th className="px-5 py-3.5">ID</th>
+                <th className="px-5 py-3.5">Complaint Text</th>
+                <th className="px-5 py-3.5">Domain</th>
+                <th className="px-5 py-3.5">Sentiment Polarity</th>
+                <th className="px-5 py-3.5">Date</th>
+                <th className="px-5 py-3.5">Ward / Area</th>
+                <th className="px-5 py-3.5 text-right">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 font-normal">
+            <tbody className="divide-y divide-[#E7E0D3] font-normal">
               {pagedRecords.length > 0 ? (
-                pagedRecords.map((r) => (
-                  <tr key={r.id} className="hover:bg-slate-50/80 transition-colors">
-                    <td className="px-5 py-3 font-mono font-medium text-slate-600 whitespace-nowrap">
-                      {r.id}
-                    </td>
-                    <td className="px-5 py-3 text-slate-900 font-medium max-w-md truncate">
-                      {r.complaint_text}
-                    </td>
-                    <td className="px-5 py-3 whitespace-nowrap text-slate-700">
-                      {r.category}
-                    </td>
-                    <td className="px-5 py-3 whitespace-nowrap font-medium">
-                      <span className={
-                        r.sentiment === 'Positive'
-                          ? 'text-emerald-700'
-                          : r.sentiment === 'Negative'
-                          ? 'text-rose-700'
-                          : 'text-sky-700'
-                      }>
-                        {r.sentiment}
-                      </span>
-                    </td>
-                    <td className="px-5 py-3 font-mono tabular-nums text-slate-500 whitespace-nowrap">
-                      {r.date}
-                    </td>
-                    <td className="px-5 py-3 text-slate-600 whitespace-nowrap truncate max-w-xs">
-                      {r.ward_or_region}
-                    </td>
-                    <td className="px-5 py-3 text-slate-500 whitespace-nowrap truncate max-w-xs">
-                      {r.department}
-                    </td>
-                    <td className="px-5 py-3 text-right whitespace-nowrap">
-                      <button
-                        onClick={() => setActiveRecord(r)}
-                        className="text-slate-500 hover:text-slate-900 font-medium inline-flex items-center gap-1"
-                      >
-                        <Eye className="w-3.5 h-3.5" />
-                        <span>Inspect</span>
-                      </button>
-                    </td>
-                  </tr>
-                ))
+                pagedRecords.map((r) => {
+                  const sTheme = SENTIMENT_THEME[r.sentiment] || SENTIMENT_THEME.Neutral;
+                  const dTheme = DOMAIN_THEME[r.category] || DOMAIN_THEME['Other Public Services'];
+                  return (
+                    <tr key={r.id} className="hover:bg-[#FBF7EF] transition-colors">
+                      <td className="px-5 py-3.5 font-mono font-bold text-[#687568] whitespace-nowrap">
+                        {r.id}
+                      </td>
+                      <td className="px-5 py-3.5 text-[#182820] font-medium max-w-md truncate">
+                        {r.complaint_text}
+                      </td>
+                      <td className="px-5 py-3.5 whitespace-nowrap">
+                        <span
+                          className="px-2.5 py-0.5 rounded-full text-[11px] font-bold border"
+                          style={{ backgroundColor: dTheme.bg, color: dTheme.text, borderColor: dTheme.border }}
+                        >
+                          {r.category}
+                        </span>
+                      </td>
+                      <td className="px-5 py-3.5 whitespace-nowrap">
+                        <span
+                          className="px-2.5 py-0.5 rounded-full text-[11px] font-bold border inline-flex items-center gap-1.5"
+                          style={{ backgroundColor: sTheme.bg, color: sTheme.text, borderColor: sTheme.border }}
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: sTheme.color }} />
+                          {r.sentiment}
+                        </span>
+                      </td>
+                      <td className="px-5 py-3.5 font-mono text-[#687568] tabular-nums whitespace-nowrap">
+                        {r.date}
+                      </td>
+                      <td className="px-5 py-3.5 text-[#687568] whitespace-nowrap truncate max-w-xs">
+                        {r.ward_or_region}
+                      </td>
+                      <td className="px-5 py-3.5 text-right whitespace-nowrap">
+                        <button
+                          onClick={() => setActiveRecord(r)}
+                          className="p-1.5 text-[#073D32] hover:bg-[#DFF2E6] rounded-lg transition-colors"
+                          title="Inspect grievance details"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })
               ) : (
                 <tr>
-                  <td colSpan={8} className="py-12 text-center text-slate-400">
-                    No complaints matching the selected search query or filters.
+                  <td colSpan={7} className="px-5 py-12 text-center text-[#687568]">
+                    No grievance records match the selected filter criteria.
                   </td>
                 </tr>
               )}
@@ -232,34 +238,25 @@ export const ComplaintExplorerPage: React.FC = () => {
         </div>
 
         {/* Pagination Bar */}
-        <div className="px-6 py-3.5 bg-slate-50 border-t border-slate-200 flex items-center justify-between text-xs">
-          <div className="text-slate-500">
-            Showing{' '}
-            <strong className="text-slate-900 font-mono">
-              {(currentPage - 1) * pageSize + 1}
-            </strong>{' '}
-            to{' '}
-            <strong className="text-slate-900 font-mono">
-              {Math.min(currentPage * pageSize, filtered.length)}
-            </strong>{' '}
-            of <strong className="text-slate-900 font-mono">{filtered.length}</strong>
-          </div>
-
+        <div className="px-5 py-3.5 bg-[#FBF7EF] border-t border-[#E7E0D3] flex items-center justify-between text-xs">
+          <span className="text-[#687568]">
+            Showing {(currentPage - 1) * pageSize + 1} to {Math.min(currentPage * pageSize, filtered.length)} of {filtered.length} entries
+          </span>
           <div className="flex items-center gap-2">
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
-              disabled={currentPage <= 1}
-              className="p-1.5 rounded-md border border-slate-200 text-slate-600 hover:bg-white disabled:opacity-40 transition-colors"
+              disabled={currentPage === 1}
+              className="p-1.5 rounded-lg border border-[#E7E0D3] bg-[#FFFDF8] hover:bg-[#F5EFE6] disabled:opacity-40 transition-colors"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
-            <span className="font-mono text-slate-700 px-2">
+            <span className="font-mono tabular-nums font-bold text-[#182820]">
               {currentPage} / {totalPages}
             </span>
             <button
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-              disabled={currentPage >= totalPages}
-              className="p-1.5 rounded-md border border-slate-200 text-slate-600 hover:bg-white disabled:opacity-40 transition-colors"
+              disabled={currentPage === totalPages}
+              className="p-1.5 rounded-lg border border-[#E7E0D3] bg-[#FFFDF8] hover:bg-[#F5EFE6] disabled:opacity-40 transition-colors"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
@@ -267,65 +264,61 @@ export const ComplaintExplorerPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Row Detail Inspection Modal */}
+      {/* Record Inspection Modal */}
       {activeRecord && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4">
-          <div className="bg-white rounded-xl shadow-2xl border border-slate-200 w-full max-w-lg overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-            <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#182820]/60 backdrop-blur-xs animate-in fade-in duration-150">
+          <div className="bg-[#FFFDF8] rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-[#E7E0D3] space-y-4">
+            <div className="flex items-center justify-between border-b border-[#E7E0D3] pb-3">
               <div className="flex items-center gap-2">
-                <span className="font-mono font-bold text-slate-900 text-sm">{activeRecord.id}</span>
-                <span className="text-slate-300">·</span>
-                <span className="text-xs text-slate-500 font-mono">{activeRecord.date}</span>
+                <span className="text-xs font-mono font-bold text-[#073D32] bg-[#DFF2E6] px-2.5 py-1 rounded-full">
+                  {activeRecord.id}
+                </span>
+                <span className="text-xs text-[#687568]">{activeRecord.date}</span>
               </div>
               <button
                 onClick={() => setActiveRecord(null)}
-                className="text-slate-400 hover:text-slate-700 transition-colors"
+                className="p-1 text-[#687568] hover:text-[#182820] rounded-full hover:bg-[#F5EFE6]"
               >
-                <X className="w-4 h-4" />
+                <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="p-6 space-y-4 text-xs">
+            <div className="space-y-3">
               <div>
-                <span className="text-slate-400 font-semibold uppercase tracking-wider block mb-1">
-                  Citizen Complaint Text
-                </span>
-                <p className="text-sm font-medium text-slate-900 bg-slate-50 p-3.5 rounded-lg border border-slate-200 leading-relaxed">
-                  "{activeRecord.complaint_text}"
+                <label className="text-[11px] font-bold text-[#687568] uppercase">Full Complaint Text</label>
+                <p className="text-sm text-[#182820] leading-relaxed mt-1 p-3.5 bg-[#FBF7EF] rounded-xl border border-[#E7E0D3]">
+                  {activeRecord.complaint_text}
                 </p>
               </div>
 
-              <div className="grid grid-cols-2 gap-3 pt-2">
-                <div className="p-3 bg-slate-50 rounded-lg border border-slate-200">
-                  <span className="text-slate-400 block mb-0.5">Category</span>
-                  <span className="text-sm font-bold text-slate-900">{activeRecord.category}</span>
+              <div className="grid grid-cols-2 gap-3 text-xs">
+                <div>
+                  <label className="text-[11px] font-bold text-[#687568] uppercase">Classified Domain</label>
+                  <div className="font-bold text-[#073D32] mt-0.5">{activeRecord.category}</div>
                 </div>
-                <div className="p-3 bg-slate-50 rounded-lg border border-slate-200">
-                  <span className="text-slate-400 block mb-0.5">Assigned Sentiment</span>
-                  <span className={`text-sm font-bold ${
-                    activeRecord.sentiment === 'Positive' ? 'text-emerald-700' :
-                    activeRecord.sentiment === 'Negative' ? 'text-rose-700' : 'text-sky-700'
-                  }`}>
+                <div>
+                  <label className="text-[11px] font-bold text-[#687568] uppercase">Sentiment</label>
+                  <div className="font-bold mt-0.5" style={{ color: SENTIMENT_THEME[activeRecord.sentiment]?.color }}>
                     {activeRecord.sentiment}
-                  </span>
+                  </div>
                 </div>
-                <div className="p-3 bg-slate-50 rounded-lg border border-slate-200">
-                  <span className="text-slate-400 block mb-0.5">Ward / Jurisdiction</span>
-                  <span className="text-slate-800 font-medium">{activeRecord.ward_or_region}</span>
+                <div>
+                  <label className="text-[11px] font-bold text-[#687568] uppercase">Ward / Region</label>
+                  <div className="font-medium text-[#182820] mt-0.5">{activeRecord.ward_or_region}</div>
                 </div>
-                <div className="p-3 bg-slate-50 rounded-lg border border-slate-200">
-                  <span className="text-slate-400 block mb-0.5">Department</span>
-                  <span className="text-slate-800 font-medium">{activeRecord.department}</span>
+                <div>
+                  <label className="text-[11px] font-bold text-[#687568] uppercase">Responsible Department</label>
+                  <div className="font-medium text-[#182820] mt-0.5">{activeRecord.department}</div>
                 </div>
               </div>
             </div>
 
-            <div className="px-6 py-3.5 bg-slate-50 border-t border-slate-200 flex justify-end">
+            <div className="flex justify-end pt-2 border-t border-[#E7E0D3]">
               <button
                 onClick={() => setActiveRecord(null)}
-                className="px-4 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors"
+                className="px-5 py-2 text-xs font-bold text-white bg-[#073D32] hover:bg-[#0c4e40] rounded-full transition-colors"
               >
-                Close
+                Close Details
               </button>
             </div>
           </div>
