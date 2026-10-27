@@ -55,8 +55,8 @@ export const DataManagementPage: React.FC = () => {
   };
 
   const handleFile = (file: File) => {
-    if (!file.name.endsWith('.csv')) {
-      alert('Please upload a valid .csv file');
+    if (!file.name.toLowerCase().endsWith('.csv')) {
+      uploadCSVContent('', file.name); // triggers validation error toast in context
       return;
     }
     const reader = new FileReader();

@@ -28,6 +28,13 @@ export type NavigationTab =
   | 'model-evaluation'
   | 'insights';
 
+export interface ExplorerFilterState {
+  category: string;
+  sentiment: string;
+  status: string;
+  search: string;
+}
+
 interface CivicContextType {
   records: GrievanceRecord[];
   activeTab: NavigationTab;
@@ -52,7 +59,17 @@ interface CivicContextType {
   setIsBackendModalOpen: (open: boolean) => void;
   mobileMenuOpen: boolean;
   setMobileMenuOpen: (open: boolean) => void;
+  explorerFilter: ExplorerFilterState;
+  setExplorerFilter: React.Dispatch<React.SetStateAction<ExplorerFilterState>>;
+  navigateToExplorer: (filter?: Partial<ExplorerFilterState>) => void;
 }
+
+const DEFAULT_EXPLORER_FILTER: ExplorerFilterState = {
+  category: 'All',
+  sentiment: 'All',
+  status: 'All',
+  search: ''
+};
 
 const CivicContext = createContext<CivicContextType | undefined>(undefined);
 
@@ -66,6 +83,7 @@ export const CivicProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const [fastApiPing, setFastApiPing] = useState<PingResult | null>(null);
   const [isBackendModalOpen, setIsBackendModalOpen] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+  const [explorerFilter, setExplorerFilter] = useState<ExplorerFilterState>(DEFAULT_EXPLORER_FILTER);
 
   // Derived state calculated accurately from current records
   const [datasetQuality, setDatasetQuality] = useState<DatasetQuality>(() => inspectDataset(INITIAL_DEMO_GRIEVANCES));
@@ -82,7 +100,13 @@ export const CivicProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   const dismissNotification = () => setNotification(null);
 
-  // Re-train embedded models and compute fresh metrics whenever records or selectedModel change
+  const navigateToExplorer = (filter?: Partial<ExplorerFilterState>) => {
+    if (filter) {
+      setExplorerFilter(prev => ({ ...prev, ...filter }));
+    }
+    setActiveTab('complaint-explorer');
+  };
+
   const refreshAllState = async (newRecords: GrievanceRecord[], model = selectedModel) => {
     setIsLoading(true);
     try {
@@ -135,14 +159,24 @@ export const CivicProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   const uploadCSVContent = (csvText: string, filename: string) => {
     try {
-      const parsed = parseCSV(csvText);
-      if (parsed.length === 0) {
-        showNotification('Failed to parse CSV. Ensure it has valid grievance rows.', 'error');
+      const { records: parsed, errors, warnings } = parseCSV(csvText);
+      if (errors.length > 0) {
+        showNotification(`CSV validation failed: ${errors.join('; ')}`, 'error');
         return;
       }
+      if (parsed.length === 0) {
+        showNotification('Failed to parse CSV: no usable grievance rows found.', 'error');
+        return;
+      }
+
       setRecords(parsed);
       refreshAllState(parsed, selectedModel);
-      showNotification(`Successfully imported "${filename}" (${parsed.length} records).`, 'success');
+
+      let msg = `Successfully imported "${filename}" (${parsed.length} records).`;
+      if (warnings.length > 0) {
+        msg += ` Note: ${warnings[0]}`;
+      }
+      showNotification(msg, 'success');
     } catch (err: any) {
       showNotification(`Error parsing CSV: ${err.message}`, 'error');
     }
@@ -186,7 +220,10 @@ export const CivicProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         isBackendModalOpen,
         setIsBackendModalOpen,
         mobileMenuOpen,
-        setMobileMenuOpen
+        setMobileMenuOpen,
+        explorerFilter,
+        setExplorerFilter,
+        navigateToExplorer
       }}
     >
       {children}

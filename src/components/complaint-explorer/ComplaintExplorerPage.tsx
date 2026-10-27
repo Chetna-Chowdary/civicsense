@@ -16,12 +16,18 @@ import { ALL_CATEGORIES, ALL_SENTIMENTS, exportRecordsToCSV } from '../../servic
 import { CIVIC_THEME, SENTIMENT_THEME, DOMAIN_THEME } from '../../constants/theme';
 
 export const ComplaintExplorerPage: React.FC = () => {
-  const { records } = useCivic();
+  const { records, explorerFilter, setExplorerFilter } = useCivic();
 
-  const [search, setSearch] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [selectedSentiment, setSelectedSentiment] = useState<string>('All');
-  const [selectedStatus, setSelectedStatus] = useState<string>('All');
+  const search = explorerFilter.search;
+  const selectedCategory = explorerFilter.category;
+  const selectedSentiment = explorerFilter.sentiment;
+  const selectedStatus = explorerFilter.status;
+
+  const setSearch = (val: string) => setExplorerFilter(prev => ({ ...prev, search: val }));
+  const setSelectedCategory = (val: string) => setExplorerFilter(prev => ({ ...prev, category: val }));
+  const setSelectedSentiment = (val: string) => setExplorerFilter(prev => ({ ...prev, sentiment: val }));
+  const setSelectedStatus = (val: string) => setExplorerFilter(prev => ({ ...prev, status: val }));
+
   const [page, setPage] = useState(1);
   const pageSize = 15;
 

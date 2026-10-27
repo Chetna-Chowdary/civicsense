@@ -23,6 +23,7 @@ export interface GrievanceRecord {
   department: string;
   status: GrievanceStatus;
   urgency: UrgencyLevel;
+  priority_score?: number;
 }
 
 export interface DatasetQuality {
@@ -42,6 +43,8 @@ export interface ClassificationPrediction {
   probabilities: Record<ServiceCategory, number>;
   key_keywords: string[];
   cleaned_text: string;
+  needs_review?: boolean;
+  review_reason?: string;
 }
 
 export interface SentimentPrediction {
@@ -50,6 +53,8 @@ export interface SentimentPrediction {
   probabilities: Record<SentimentType, number>;
   tokens: string[];
   cleaned_text: string;
+  needs_review?: boolean;
+  review_reason?: string;
 }
 
 export interface ModelMetrics {
@@ -72,17 +77,95 @@ export interface ModelMetrics {
     'f1-score': number;
     support: number;
   }>;
+  cross_validation?: {
+    folds: number;
+    scores: number[];
+    mean_accuracy: number;
+    std_accuracy: number;
+  };
+  class_error_analysis?: {
+    true_category: string;
+    predicted_as: string;
+    error_count: number;
+  }[];
+  model_comparison?: Record<string, {
+    accuracy: number;
+    f1_weighted: number;
+  }>;
+  leakage_protected?: boolean;
+  limitations?: string[];
+}
+
+export interface CategorySentimentStacked {
+  category: ServiceCategory;
+  Positive: number;
+  Neutral: number;
+  Negative: number;
+  total: number;
+}
+
+export interface DepartmentMetric {
+  department: string;
+  count: number;
+  negative_count: number;
+  positive_count: number;
+  negative_rate: number;
+}
+
+export interface WardMetric {
+  ward: string;
+  count: number;
+  negative_count: number;
+  negative_rate: number;
+}
+
+export interface ResolutionAnalytics {
+  open_cases: number;
+  in_progress_cases: number;
+  resolved_cases: number;
+  total_cases: number;
+  resolution_rate_pct: number;
+  backlog_count: number;
+  median_resolution_days: number;
+}
+
+export interface PriorityQueueItem {
+  id: string;
+  score: number;
+  tier: UrgencyLevel;
+  category: ServiceCategory;
+  text: string;
+}
+
+export interface PriorityScoringData {
+  distribution: Record<UrgencyLevel, number>;
+  high_priority_queue: PriorityQueueItem[];
+}
+
+export interface DuplicateCandidate {
+  primary_id: string;
+  primary_text: string;
+  similar_id: string;
+  similar_text: string;
+  similarity_score: number;
+  category: string;
 }
 
 export interface TrendsData {
   total_records: number;
   date_range: { start: string; end: string };
-  daily_trends: { date: string; count: number }[];
+  daily_trends: { date: string; count: number; is_anomaly?: boolean; expected?: number }[];
   weekly_trends: { week_start: string; count: number }[];
   monthly_trends: { month: string; count: number }[];
   category_breakdown: { category: ServiceCategory; count: number }[];
   sentiment_breakdown: { sentiment: SentimentType; count: number }[];
   category_sentiment_cross: Record<ServiceCategory, Record<SentimentType, number>>;
+  category_sentiment_stacked?: CategorySentimentStacked[];
+  department_breakdown?: DepartmentMetric[];
+  ward_breakdown?: WardMetric[];
+  resolution_analytics?: ResolutionAnalytics;
+  priority_scoring?: PriorityScoringData;
+  duplicate_candidates?: DuplicateCandidate[];
   frequent_keywords: { term: string; count: number }[];
   frequent_phrases: { term: string; count: number }[];
 }
